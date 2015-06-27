@@ -1,6 +1,6 @@
 <?php
 
-namespace Terranet\Metaable\Eloquent;
+namespace Terranet\Metaable;
 
 class MetaManager implements \ArrayAccess {
 
