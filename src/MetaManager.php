@@ -11,7 +11,7 @@ class MetaManager implements \ArrayAccess {
 
     public function __construct(array $attributes = []) {
 
-        $this->setAttributes($attributes);
+        $this->setFromArray($attributes);
     }
 
     /**
@@ -20,7 +20,7 @@ class MetaManager implements \ArrayAccess {
      * @param array $attributes
      * @return $this
      */
-    public function setAttributes(array $attributes) {
+    public function setFromArray(array $attributes) {
         array_walk($attributes, function($value, $attribute) {
             $this->set{ucfirst($attribute)}($value);
         });
