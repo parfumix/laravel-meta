@@ -1,17 +1,17 @@
 {
-    "name": "parfumix/laravel-meta.git",
-    "description": "Package for Laravel5 working with meta",
-    "authors": [
-        {
-            "name": "Radu",
-            "email": "radu.bordei89@gmail.com"
-        }
-    ],
-    "autoload": {
-      "psr-0": {
-        "Terranet\\Metaable": "src/"
-      }
-    },
-    "minimum-stability": "dev",
-    "require": {}
+  "name": "terranet/metaable",
+  "description": "Package for Laravel5 working with meta",
+  "authors": [
+    {
+      "name": "Radu",
+      "email": "radu.bordei89@gmail.com"
+    }
+  ],
+  "autoload": {
+    "psr-0": {
+      "Terranet\\Multilingual": "src/"
+    }
+  },
+  "minimum-stability": "dev",
+  "require": {}
 }
