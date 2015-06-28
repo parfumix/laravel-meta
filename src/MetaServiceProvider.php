@@ -10,11 +10,11 @@ class MetaServiceProvider extends ServiceProvider {
      * Publish resources.
      */
     public function boot() {
-        $this->loadViewsFrom(base_path('views'), 'meta');
+        $this->loadViewsFrom(__DIR__ . DIRECTORY_SEPARATOR . '../views', 'meta');
 
         $this->publishes([
-            base_path('views') => base_path('resources/views/vendor/meta'),
-        ]);
+            __DIR__ . DIRECTORY_SEPARATOR . '../views/' => base_path('resources/views/vendor/meta'),
+        ], 'views');
     }
 
     /**
