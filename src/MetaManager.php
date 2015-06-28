@@ -25,9 +25,11 @@ class MetaManager implements MetaManagerContract, \ArrayAccess, Arrayable {
             if( is_array($keywords) )
                 $keywords = implode(', ', $keywords);
 
-            $this->attributes['keywords'] = sprintf('<meta name="keywords" content="%s"/>', strtolower(
+            $keywords = sprintf('<meta name="keywords" content="%s"/>', strtolower(
                 strip_tags($keywords)
             ));
+
+            return $keywords;
         };
 
         $this->addTemplates($templates);
@@ -43,7 +45,7 @@ class MetaManager implements MetaManagerContract, \ArrayAccess, Arrayable {
      */
     public function setFromArray(array $attributes) {
         array_walk($attributes, function($value, $attribute) {
-            $this->addMeta($attribute, $value);
+            $this->set($attribute, $value);
         });
 
         return $this;
@@ -57,7 +59,7 @@ class MetaManager implements MetaManagerContract, \ArrayAccess, Arrayable {
      * @param bool $replace
      * @return $this
      */
-    public function addMeta($name, $value, $replace = true) {
+    public function set($name, $value, $replace = true) {
         $template = null;
 
         if( $replace ) {
@@ -68,10 +70,11 @@ class MetaManager implements MetaManagerContract, \ArrayAccess, Arrayable {
                 $template = $this->templates[$name];
         }
 
-        if( is_callable($template) )
-            $this->attributes[$name] = call_user_func($template, $value);
-        else
-            $this->attributes[$name] = str_replace('%s', $value, $template);
+        if( !is_null($template) )
+            if( is_callable($template) )
+                $this->attributes[$name] = call_user_func($template, $value);
+            else
+                $this->attributes[$name] = str_replace('%s', $value, $template);
 
         return $this;
     }
@@ -83,7 +86,7 @@ class MetaManager implements MetaManagerContract, \ArrayAccess, Arrayable {
      * @param string $default
      * @return string
      */
-    public function getMeta($key, $default = '') {
+    public function get($key, $default = '') {
         if( isset($this->attributes[$key]) )
             return $this->attributes[$key];
 
@@ -101,7 +104,7 @@ class MetaManager implements MetaManagerContract, \ArrayAccess, Arrayable {
 
         array_walk($this->templates, function($template, $key) use($prefix, $metaable) {
             $funcName = sprintf('%s%s', $prefix, ucfirst($key));
-            $this->addMeta(
+            $this->set(
               $key,
               $template->{$funcName}
             );

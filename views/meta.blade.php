@@ -1,3 +1,3 @@
 @foreach($attributes as $attribute)
-    {{$attribute}}
+    {!! $attribute !!}
 @endforeach
