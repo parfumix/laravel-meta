@@ -2,14 +2,35 @@
 
 namespace Terranet\Metaable;
 
-class MetaManager implements \ArrayAccess {
+use Illuminate\Contracts\Support\Arrayable;
+use Terranet\Metaable\Entity\Metaable;
+
+class MetaManager implements MetaManagerContract, \ArrayAccess, Arrayable {
 
     /**
      * @var array
      */
     private $attributes;
 
-    public function __construct(array $attributes = []) {
+    protected $templates = [
+        'title'       => '<title>%s</title>',
+        'description' => '<description>%s</description>',
+    ];
+
+    public function __construct(array $attributes = [], array $templates = array()) {
+        $this->templates['keywords'] = function($keywords) {
+            if ($keywords === null)
+                return;
+
+            if( is_array($keywords) )
+                $keywords = implode(', ', $keywords);
+
+            $this->attributes['keywords'] = sprintf('<meta name="keywords" content="%s"/>', strtolower(
+                strip_tags($keywords)
+            ));
+        };
+
+        $this->addTemplates($templates);
 
         $this->setFromArray($attributes);
     }
@@ -22,84 +43,51 @@ class MetaManager implements \ArrayAccess {
      */
     public function setFromArray(array $attributes) {
         array_walk($attributes, function($value, $attribute) {
-            $this->set{ucfirst($attribute)}($value);
+            $this->addMeta($attribute, $value);
         });
 
         return $this;
     }
 
     /**
-     * Set title ..
+     * Set meta .
      *
-     * @param $title
+     * @param $name
+     * @param $value
+     * @param bool $replace
      * @return $this
      */
-    public function setTitle($title) {
-        $this->attributes['title'] = $title;
+    public function addMeta($name, $value, $replace = true) {
+        $template = null;
+
+        if( $replace ) {
+            if( array_key_exists( $name, $this->templates ) )
+                $template = $this->templates[$name];
+        } else {
+            if( ! array_key_exists($name, $this->attributes) )
+                $template = $this->templates[$name];
+        }
+
+        if( is_callable($template) )
+            $this->attributes[$name] = call_user_func($template, $value);
+        else
+            $this->attributes[$name] = str_replace('%s', $value, $template);
 
         return $this;
     }
 
     /**
-     * Set description ..
+     * Get meta by key.
      *
-     * @param $description
-     * @return $this
+     * @param $key
+     * @param string $default
+     * @return string
      */
-    public function setDescription($description) {
-        if( $description === null )
-            return;
+    public function getMeta($key, $default = '') {
+        if( isset($this->attributes[$key]) )
+            return $this->attributes[$key];
 
-        $this->attributes['description'] = $description;
-
-        return $this;
-    }
-
-    /**
-     * Set keywords ..
-     *
-     * @param $keywords
-     * @return $this|void
-     */
-    public function setKeywords($keywords) {
-        if ($keywords === null)
-            return;
-
-        if( is_array($keywords) )
-            $keywords = implode(', ', $keywords);
-
-        $this->attributes['keywords'] = strtolower(
-            strip_tags($keywords)
-        );
-
-        return $this;
-    }
-
-    /**
-     * Get title .
-     *
-     * @return mixed
-     */
-    public function getTitle() {
-        return $this->attributes['title'];
-    }
-
-    /**
-     * Get description .
-     *
-     * @return mixed
-     */
-    public function getDescription() {
-        return $this->attributes['description'];
-    }
-
-    /**
-     * Get keywords .
-     *
-     * @return mixed
-     */
-    public function getKeywords() {
-        return $this->attributes['keywords'];
+        return $default;
     }
 
     /**
@@ -109,17 +97,15 @@ class MetaManager implements \ArrayAccess {
      * @return $this
      */
     public function setFromEntity(Metaable $metaable) {
-        $this->setTitle(
-            $metaable->getMetaTitle()
-        );
+        $prefix = 'getMeta';
 
-        $this->setDescription(
-            $metaable->getMetaDescription()
-        );
-
-        $this->setKeywords(
-            $metaable->getMetaKeywords()
-        );
+        array_walk($this->templates, function($template, $key) use($prefix, $metaable) {
+            $funcName = sprintf('%s%s', $prefix, ucfirst($key));
+            $this->addMeta(
+              $key,
+              $template->{$funcName}
+            );
+        });
 
         return $this;
     }
@@ -130,7 +116,7 @@ class MetaManager implements \ArrayAccess {
      * @return $this
      */
     public function flush() {
-        unset($this->attributes);
+        $this->attributes = [];
 
         return $this;
     }
@@ -145,7 +131,7 @@ class MetaManager implements \ArrayAccess {
         if( $key === null )
             return $this->flush();
 
-        if( array_key_exists($key, $this->attributes) )
+        if( ! array_key_exists($key, $this->attributes) )
             return;
 
         unset($this->attributes[$key]);
@@ -153,13 +139,34 @@ class MetaManager implements \ArrayAccess {
         return $this;
     }
 
-    public function toHtml($key = null) {
-        return 1;
-        #@todo .
+    /**
+     * Render all attributes.
+     *
+     * @return \Illuminate\View\View
+     */
+    public function render() {
+        $attributes = $this->attributes;
+
+        return view('meta::meta', compact('attributes'));
     }
 
     public function __toString() {
-        return $this->toHtml();
+        return $this->render();
+    }
+
+    /**
+     * Add more templates .
+     *
+     * @param array $templates
+     * @return $this
+     */
+    public function addTemplates(array $templates = array()) {
+        $this->templates = array_merge(
+            $templates,
+            $this->templates
+        );
+
+        return $this;
     }
 
     /**
@@ -175,7 +182,7 @@ class MetaManager implements \ArrayAccess {
      * The return value will be casted to boolean if non-boolean was returned.
      */
     public function offsetExists($offset) {
-        // TODO: Implement offsetExists() method.
+        return isset($this->attributes[$offset]);
     }
 
     /**
@@ -188,7 +195,7 @@ class MetaManager implements \ArrayAccess {
      * @return mixed Can return all value types.
      */
     public function offsetGet($offset) {
-        // TODO: Implement offsetGet() method.
+        return $this->offsetExists($offset) ? $this->attributes[$offset] : null;
     }
 
     /**
@@ -204,7 +211,9 @@ class MetaManager implements \ArrayAccess {
      * @return void
      */
     public function offsetSet($offset, $value) {
-        // TODO: Implement offsetSet() method.
+        if (! is_null($offset)) {
+            $this->attributes[$offset] = $value;
+        }
     }
 
     /**
@@ -217,6 +226,17 @@ class MetaManager implements \ArrayAccess {
      * @return void
      */
     public function offsetUnset($offset) {
-        // TODO: Implement offsetUnset() method.
+        if ($this->offsetExists($offset)) {
+            unset($this->attributes[$offset]);
+        }
+    }
+
+    /**
+     * Get the instance as an array.
+     *
+     * @return array
+     */
+    public function toArray() {
+       return $this->attributes;
     }
 }
