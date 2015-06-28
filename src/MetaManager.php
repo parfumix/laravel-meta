@@ -10,7 +10,7 @@ class MetaManager implements MetaManagerContract, \ArrayAccess, Arrayable {
     /**
      * @var array
      */
-    private $attributes;
+    private $attributes = [];
 
     protected $templates = [
         'title'       => '<title>%s</title>',
