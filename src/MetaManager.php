@@ -34,7 +34,7 @@ class MetaManager implements MetaManagerContract, \ArrayAccess, Arrayable {
 
         $this->addTemplates($templates);
 
-        $this->setFromArray($attributes);
+        $this->fromArray($attributes);
     }
 
     /**
@@ -43,9 +43,29 @@ class MetaManager implements MetaManagerContract, \ArrayAccess, Arrayable {
      * @param array $attributes
      * @return $this
      */
-    public function setFromArray(array $attributes) {
+    public function fromArray(array $attributes) {
         array_walk($attributes, function($value, $attribute) {
             $this->set($attribute, $value);
+        });
+
+        return $this;
+    }
+
+    /**
+     * Set meta from entity ..
+     *
+     * @param Metaable $metaable
+     * @return $this
+     */
+    public function fromEloquent(Metaable $metaable) {
+        $prefix = 'getMeta';
+
+        array_walk($this->templates, function($template, $key) use($prefix, $metaable) {
+            $funcName = sprintf('%s%s', $prefix, ucfirst($key));
+            $this->set(
+                $key,
+                $template->{$funcName}
+            );
         });
 
         return $this;
@@ -91,26 +111,6 @@ class MetaManager implements MetaManagerContract, \ArrayAccess, Arrayable {
             return $this->attributes[$key];
 
         return $default;
-    }
-
-    /**
-     * Set meta from entity ..
-     *
-     * @param Metaable $metaable
-     * @return $this
-     */
-    public function setFromEntity(Metaable $metaable) {
-        $prefix = 'getMeta';
-
-        array_walk($this->templates, function($template, $key) use($prefix, $metaable) {
-            $funcName = sprintf('%s%s', $prefix, ucfirst($key));
-            $this->set(
-              $key,
-              $template->{$funcName}
-            );
-        });
-
-        return $this;
     }
 
     /**
