@@ -62,10 +62,12 @@ class MetaManager implements MetaManagerContract, \ArrayAccess, Arrayable {
 
         array_walk($this->templates, function($template, $key) use($prefix, $metaable) {
             $funcName = sprintf('%s%s', $prefix, ucfirst($key));
-            $this->set(
-                $key,
-                $template->{$funcName}
-            );
+
+            if( in_array($funcName, get_class_methods(get_class($metaable))) )
+                $this->set(
+                    $key,
+                    $template->{$funcName}
+                );
         });
 
         return $this;
