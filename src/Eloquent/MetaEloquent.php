@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class MetaEloquent extends Model {
 
-    protected $table = 'meta';
+    protected $table = 'meta_seo';
 
     public $timestamps = false;
 
