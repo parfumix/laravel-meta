@@ -35,7 +35,7 @@ And run :
 
 ### Configuration
 
-To regiter package you have to follow standart procedure registering serviceProvider class and Facade. But for the first open your app.php file located in config/app.php and search for array of providers:
+To regiter package you have to follow standart procedure registering serviceProvider class and Facade. But for the first open your configuration file located in **config/app.php** and search for array of providers:
 
 ```php
   'providers' => [
@@ -44,7 +44,7 @@ To regiter package you have to follow standart procedure registering serviceProv
       ]  
 ```
 
-And you can create an alias for that in the same file but looking for aliases array:
+And you can create an alias for that in the same file but looking for **aliases** array:
 
 ```php
   'aliases' => [
@@ -55,7 +55,7 @@ And you can create an alias for that in the same file but looking for aliases ar
 
 ### Usage
 
-The benefits of that component is that you can use it separate from laravel or use HasTrait trait to store all the meta in database.
+The benefits of that component is that you can use it separate from laravel or use **HasTrait** trait to store all the meta in database.
 
 Let me show you the tips and tricks you can use to generate meta tags for one of the page.
 
@@ -117,7 +117,7 @@ class Page extends Repository implements Metaable {
 }
 ```
 
-And add your meta tags use fromEloquent method
+And add your meta tags use **fromEloquent** method
 
 
 ```php
@@ -127,9 +127,9 @@ use Meta;
 class PageController extends Controller {
 
     public function index(PageRepository $pageRepository) {
-    
+
          $page = $pageRepository->findBySlug('main-page');
-         
+
          // here you have to send eloquent instance which implements Metaable contract .
          Meta::fromEloquent($page)
     }
