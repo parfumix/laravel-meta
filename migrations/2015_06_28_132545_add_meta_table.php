@@ -11,7 +11,7 @@ class AddMetaTable extends Migration {
      * @return void
      */
     public function up() {
-        Schema::create('meta', function(Blueprint $table) {
+        Schema::create('meta_seo', function(Blueprint $table) {
             $table->increments('id');
             $table->integer('metaable_id');
             $table->string('metaable_type');
@@ -28,6 +28,6 @@ class AddMetaTable extends Migration {
      * @return void
      */
     public function down() {
-        Schema::drop('meta');
+        Schema::drop('meta_seo');
     }
 }
