@@ -200,7 +200,7 @@ class MetaManager implements MetaManagerContract, \ArrayAccess, Arrayable {
      * @return mixed Can return all value types.
      */
     public function offsetGet($offset) {
-        return $this->offsetExists($offset) ? $this->attributes[$offset] : null;
+        return $this->offsetExists($offset) ? $this->get($offset) : null;
     }
 
     /**
@@ -217,7 +217,7 @@ class MetaManager implements MetaManagerContract, \ArrayAccess, Arrayable {
      */
     public function offsetSet($offset, $value) {
         if (! is_null($offset)) {
-            $this->attributes[$offset] = $value;
+            $this->set($offset, $value);
         }
     }
 
