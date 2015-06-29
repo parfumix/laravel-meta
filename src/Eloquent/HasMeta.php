@@ -18,9 +18,11 @@ trait HasMeta {
      *
      */
     public function getMetaTitle() {
-        return $this->meta()
+        $meta = $this->meta()
             ->where('key', 'title')
             ->first();
+
+        return ! is_null($meta) ? $meta->value : '';
     }
 
     /**
@@ -29,9 +31,11 @@ trait HasMeta {
      * @return mixed
      */
     public function getMetaDescription() {
-        return $this->meta()
+        $meta = $this->meta()
             ->where('key', 'description')
             ->first();
+
+        return ! is_null($meta) ? $meta->value : '';
     }
 
     /**
@@ -40,8 +44,10 @@ trait HasMeta {
      * @return mixed
      */
     public function getMetaKeywords() {
-        return $this->meta()
+        $meta = $this->meta()
             ->where('key', 'keywords')
             ->first();
+
+        return ! is_null($meta) ? $meta->value : '';
     }
 }
