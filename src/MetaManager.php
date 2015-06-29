@@ -66,7 +66,7 @@ class MetaManager implements MetaManagerContract, \ArrayAccess, Arrayable {
             if( in_array($funcName, get_class_methods(get_class($metaable))) )
                 $this->set(
                     $key,
-                    $template->{$funcName}
+                    $metaable->{$funcName}()
                 );
         });
 
