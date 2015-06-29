@@ -24,7 +24,7 @@ or add to your composer.json file
 You have to publish package files using
 
 ```
-  $ php php artisan vendor:publish
+  $ php artisan vendor:publish
 ```
 
 And run :
