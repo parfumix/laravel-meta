@@ -119,9 +119,23 @@ class Page extends Repository implements Metaable {
 
 And add your meta tags use fromEloquent method
 
+
 ```php
-    // Here you can send $page instance ..
-    Meta::fromEloquent($page)
+
+use Meta;
+
+class PageController extends Controller {
+
+    public function index(PageRepository $pageRepository) {
+    
+         $page = $pageRepository->findBySlug('main-page');
+         
+         // here you have to send eloquent instance which implements Metaable contract .
+         Meta::fromEloquent($page)
+    }
+
+}
+
 ```
 
 and if you want to rendering meta attributes you have just opening your default layout and paste that code
