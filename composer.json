@@ -10,7 +10,10 @@
   "autoload": {
     "psr-4": {
       "Terranet\\Metaable\\": "src/"
-    }
+    },
+    "files": [
+      "helpers.php"
+    ]
   },
   "minimum-stability": "dev",
   "require": {}
