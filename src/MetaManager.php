@@ -14,7 +14,7 @@ class MetaManager implements MetaManagerContract, \ArrayAccess, Arrayable {
 
     protected $templates = [
         'title'       => '<title>%s</title>',
-        'description' => '<description>%s</description>',
+        'description' => '<meta name="description" content="%s">',
     ];
 
     public function __construct(array $attributes = [], array $templates = array()) {
