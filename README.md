@@ -78,7 +78,7 @@ class PageController extends Controller {
         
         /**
             array:2 [
-              "description" => "<description>Meta description</description>"
+              "description" => "<meta name="description" content="Meta description">"
               "keywords" => "<meta name="keywords" content="keword, best site, bla bla]"/>"
             ]
         */
