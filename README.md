@@ -4,12 +4,12 @@
 You can use the `composer` package manager to install. From console run:
 
 ```
-  $ php composer.phar require parfumix/laravel-meta "dev-master"
+  $ php composer.phar require parfumix/laravel-meta "v1.0"
 ```
 
 or add to your composer.json file
 
-    "parfumix/laravel-meta": "dev-master"
+    "parfumix/laravel-meta": "v1.0"
 
 You have to publish package files using
 
