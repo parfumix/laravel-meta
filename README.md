@@ -1,25 +1,15 @@
 # Laravel meta
 
 ### Instalation
-You can use the `composer` package manager to install. Open your composer.json file and add follow lines:
+You can use the `composer` package manager to install. From console run:
 
 ```
-"repositories": [
-  {
-     "type": "vcs",
-     "url": "git@gitlab.top.md:terranet/metaable.git"
-  }
- ```
-
-And from console run:
-
-```
-  $ php composer.phar require terranet/metaable "dev-master"
+  $ php composer.phar require parfumix/laravel-meta "dev-master"
 ```
 
 or add to your composer.json file
 
-    terranet/metaable": "dev-master"
+    "parfumix/laravel-meta": "dev-master"
 
 You have to publish package files using
 
