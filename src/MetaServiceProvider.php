@@ -28,9 +28,7 @@ class MetaServiceProvider extends ServiceProvider {
      * @return void
      */
     public function register() {
-        $this->app->bind('meta', function () {
-            return new MetaManager();
-        });
+        $this->app->bind('meta', MetaManager::class);
 
         $this->registerBladeExtension();
     }

@@ -1,6 +1,6 @@
 <?php
 
-namespace Laravel\Meta\Entity;
+namespace Laravel\Meta\Eloquent;
 
 trait HasMeta {
 

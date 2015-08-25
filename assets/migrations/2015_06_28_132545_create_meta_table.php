@@ -2,8 +2,9 @@
 
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
+use Illuminate\Support\Facades\Schema;
 
-class AddMetaTable extends Migration {
+class CreateMetaTable extends Migration {
 
     /**
      * Run the migrations.

@@ -3,7 +3,7 @@
 namespace Laravel\Meta;
 
 use Illuminate\Contracts\Support\Arrayable;
-use Laravel\Meta\Entity\Metaable;
+use Laravel\Meta\Eloquent\Metaable;
 
 class MetaManager implements \ArrayAccess, Arrayable {
 
@@ -36,6 +36,7 @@ class MetaManager implements \ArrayAccess, Arrayable {
 
         $this->fromArray($attributes);
     }
+
 
     /**
      * Set attributes ..
@@ -72,6 +73,7 @@ class MetaManager implements \ArrayAccess, Arrayable {
 
         return $this;
     }
+
 
     /**
      * Set meta .
@@ -115,6 +117,7 @@ class MetaManager implements \ArrayAccess, Arrayable {
         return $default;
     }
 
+
     /**
      * Reset all meta ..
      *
@@ -144,6 +147,7 @@ class MetaManager implements \ArrayAccess, Arrayable {
         return $this;
     }
 
+
     /**
      * Render all attributes.
      *
@@ -159,6 +163,7 @@ class MetaManager implements \ArrayAccess, Arrayable {
         return $this->render();
     }
 
+
     /**
      * Add more templates .
      *
@@ -173,6 +178,7 @@ class MetaManager implements \ArrayAccess, Arrayable {
 
         return $this;
     }
+
 
     /**
      * (PHP 5 &gt;= 5.0.0)<br/>
@@ -235,6 +241,7 @@ class MetaManager implements \ArrayAccess, Arrayable {
             unset($this->attributes[$offset]);
         }
     }
+
 
     /**
      * Get the instance as an array.
