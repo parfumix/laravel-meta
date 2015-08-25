@@ -4,7 +4,7 @@ namespace Laravel\Meta\Eloquent;
 
 use Localization as Locale;
 
-trait HasMeta {
+trait MetaTrait {
 
     /**
      * Get meta ..
