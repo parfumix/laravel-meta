@@ -15,8 +15,14 @@
       "helpers.php"
     ]
   },
-  "minimum-stability": "dev",
+  "repositories": [
+    {
+      "type": "git",
+      "url": "https://github.com/parfumix/eloquent-translatable.git"
+    }
+  ],
   "require": {
-
-  }
+    "parfumix/eloquent-translatable": "v1.0"
+  },
+  "minimum-stability": "dev"
 }
