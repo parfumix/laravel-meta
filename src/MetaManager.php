@@ -56,18 +56,19 @@ class MetaManager implements \ArrayAccess, Arrayable {
      * Set meta from entity ..
      *
      * @param Metaable $metaable
+     * @param null $locale
      * @return $this
      */
-    public function fromEloquent(Metaable $metaable) {
+    public function fromEloquent(Metaable $metaable, $locale = null) {
         $prefix = 'getMeta';
 
-        array_walk($this->templates, function($template, $key) use($prefix, $metaable) {
+        array_walk($this->templates, function($template, $key) use($prefix, $metaable, $locale) {
             $funcName = sprintf('%s%s', $prefix, ucfirst($key));
 
             if( in_array($funcName, get_class_methods(get_class($metaable))) )
                 $this->set(
                     $key,
-                    $metaable->{$funcName}()
+                    $metaable->{$funcName}($locale)
                 );
         });
 

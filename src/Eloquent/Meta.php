@@ -6,7 +6,7 @@ use Eloquent\Translatable\Translatable;
 use Eloquent\Translatable\TranslatableTrait;
 use Illuminate\Database\Eloquent\Model;
 
-class MetaEloquent extends Model implements Translatable {
+class Meta extends Model implements Translatable {
 
     use TranslatableTrait;
 
