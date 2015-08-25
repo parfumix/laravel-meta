@@ -1,6 +1,6 @@
 {
   "name": "parfumix/laravel-meta",
-  "description": "Package for Laravel5 working with meta",
+  "description": "Laravel meta seo",
   "authors": [
     {
       "name": "Radu",
@@ -9,12 +9,14 @@
   ],
   "autoload": {
     "psr-4": {
-      "Terranet\\Metaable\\": "src/"
+      "Laravel\\Meta\\": "src/"
     },
     "files": [
       "helpers.php"
     ]
   },
   "minimum-stability": "dev",
-  "require": {}
+  "require": {
+
+  }
 }
