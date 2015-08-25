@@ -1,6 +1,6 @@
 <?php
 
-namespace Terranet\Metaable\Entity;
+namespace Laravel\Meta\Entity;
 
 trait HasMeta {
 

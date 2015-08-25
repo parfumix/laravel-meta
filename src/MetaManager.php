@@ -1,11 +1,11 @@
 <?php
 
-namespace Terranet\Metaable;
+namespace Laravel\Meta;
 
 use Illuminate\Contracts\Support\Arrayable;
-use Terranet\Metaable\Entity\Metaable;
+use Laravel\Meta\Entity\Metaable;
 
-class MetaManager implements MetaManagerContract, \ArrayAccess, Arrayable {
+class MetaManager implements \ArrayAccess, Arrayable {
 
     /**
      * @var array

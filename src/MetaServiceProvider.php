@@ -1,6 +1,6 @@
 <?php
 
-namespace Terranet\Metaable;
+namespace Laravel\Meta;
 
 use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\ServiceProvider;
@@ -28,7 +28,7 @@ class MetaServiceProvider extends ServiceProvider {
      * @return void
      */
     public function register() {
-        $this->app->bind(MetaManagerContract::class, function () {
+        $this->app->bind('meta', function () {
             return new MetaManager();
         });
 
@@ -43,12 +43,12 @@ class MetaServiceProvider extends ServiceProvider {
         if ($this->versionMatch('5.0'))
             Blade::extend(function ($view) {
                 return str_replace("@meta",
-                    app(MetaManagerContract::class)
+                    app('meta')
                         ->render(), $view);
             });
         elseif ($this->versionMatch('5.1'))
             Blade::directive('meta', function ($expression) {
-                return app(MetaManagerContract::class)
+                return app('meta')
                     ->render($expression);
             });
     }
