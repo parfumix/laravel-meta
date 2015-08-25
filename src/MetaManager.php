@@ -155,9 +155,14 @@ class MetaManager implements \ArrayAccess, Arrayable {
      * @return \Illuminate\View\View
      */
     public function render() {
-        $attributes = $this->attributes;
+        $attributes = $this->toArray();
 
-        return view('meta::meta', compact('attributes'));
+        $html = '';
+        foreach($attributes as $attribute) {
+            $html .= $attribute;
+        }
+
+        return $html;
     }
 
     public function __toString() {
