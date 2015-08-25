@@ -14,11 +14,11 @@ class MetaServiceProvider extends ServiceProvider {
         $this->loadViewsFrom(__DIR__ . DIRECTORY_SEPARATOR . '../views', 'meta');
 
         $this->publishes([
-            __DIR__ . DIRECTORY_SEPARATOR . '../views/'      => base_path('resources/views/vendor/meta')
+            __DIR__ . DIRECTORY_SEPARATOR . '../assets/views/'=> base_path('resources/views/vendor/meta')
         ], 'views');
 
         $this->publishes([
-            __DIR__ . DIRECTORY_SEPARATOR . '../migrations/' => base_path('database/migrations')
+            __DIR__ . DIRECTORY_SEPARATOR . '../assets/migrations/' => base_path('database/migrations')
         ], 'migrations');
     }
 
