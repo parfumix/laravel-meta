@@ -1,6 +1,6 @@
 <?php
 
-namespace Laravel\Meta\Entity;
+namespace Laravel\Meta\Eloquent;
 
 use Illuminate\Database\Eloquent\Model;
 
@@ -10,7 +10,7 @@ class MetaEloquent extends Model {
 
     public $timestamps = false;
 
-    protected $fillable = ['metaable_id', 'metaable_type', 'key', 'value'];
+    protected $fillable = ['metaable_id', 'metaable_type', 'key'];
 
     /**
      * Get all of the owning metaable models.
