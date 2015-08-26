@@ -16,6 +16,8 @@ class Meta extends Model implements Translatable {
 
     protected $fillable = ['metaable_id', 'metaable_type', 'key'];
 
+    protected $translationClass = MetaTranslations::class;
+
     /**
      * Get all of the owning metaable models.
      */
