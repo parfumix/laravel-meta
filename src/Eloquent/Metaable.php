@@ -5,26 +5,18 @@ namespace Laravel\Meta\Eloquent;
 interface Metaable {
 
     /**
-     * Get meta title ..
+     * Get meta by key.
      *
+     * @param $key
      * @param null $locale
      * @return mixed
      */
-    public function getMetaTitle($locale = null);
+    public function getMeta($key, $locale = null);
 
     /**
-     * Get meta description .
+     * Check if is allowed use global placeholders .
      *
-     * @param null $locale
      * @return mixed
      */
-    public function getMetaDescription($locale = null);
-
-    /**
-     * Get meta keywords ..
-     *
-     * @param null $locale
-     * @return mixed
-     */
-    public function getMetaKeywords($locale = null);
+    public function allowGlobalPlaceholders();
 }
