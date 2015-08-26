@@ -17,6 +17,11 @@ class MetaManager implements \ArrayAccess, Arrayable {
     /**
      * @var array
      */
+    protected $cleanAttributes = [];
+
+    /**
+     * @var array
+     */
     protected $templates = [
         'title'       => '<title>%s</title>',
         'description' => '<meta name="description" content="%s">',
@@ -137,6 +142,8 @@ class MetaManager implements \ArrayAccess, Arrayable {
                 $this->attributes[$name] = call_user_func($template, $value);
             else
                 $this->attributes[$name] = str_replace('%s', $value, $template);
+
+        $this->cleanAttributes[$name] = $value;
 
         return $this;
     }
@@ -289,9 +296,13 @@ class MetaManager implements \ArrayAccess, Arrayable {
     /**
      * Get the instance as an array.
      *
+     * @param bool $clean
      * @return array
      */
-    public function toArray() {
+    public function toArray($clean = false) {
+        if( $clean )
+            return $this->cleanAttributes;
+
        return $this->attributes;
     }
 }
