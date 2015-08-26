@@ -16,13 +16,15 @@ trait MetaTrait {
     }
 
     /**
-     * Get meta title .
+     * Get meta by key .
+     *
+     * @param $key
      * @param null $locale
      * @return string
      */
-    public function getMetaTitle($locale = null) {
+    public function getMeta($key, $locale = null) {
         $meta = $this->meta()
-            ->where('key', 'title')
+            ->where('key', $key)
             ->first();
 
         $locale = isset($locale) ? $locale : Locale\get_active_locale();
@@ -31,34 +33,11 @@ trait MetaTrait {
     }
 
     /**
-     * Get meta description .
+     * Check if is allowed use global placeholders .
      *
-     * @param null $locale
      * @return mixed
      */
-    public function getMetaDescription($locale = null) {
-        $meta = $this->meta()
-            ->where('key', 'description')
-            ->first();
-
-        $locale = isset($locale) ? $locale : Locale\get_active_locale();
-
-        return ! is_null($meta) ? $meta->translate($locale)->value : '';
-    }
-
-    /**
-     * Get meta keywords ..
-     *
-     * @param null $locale
-     * @return mixed
-     */
-    public function getMetaKeywords($locale = null) {
-        $meta = $this->meta()
-            ->where('key', 'keywords')
-            ->first();
-
-        $locale = isset($locale) ? $locale : Locale\get_active_locale();
-
-        return ! is_null($meta) ? $meta->translate($locale)->value : '';
+    public function allowGlobalPlaceholders() {
+        return $this['globalMetaPlaceholder'];
     }
 }
