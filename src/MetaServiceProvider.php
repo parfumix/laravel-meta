@@ -4,6 +4,7 @@ namespace Laravel\Meta;
 
 use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\ServiceProvider;
+use Flysap\Support;
 
 class MetaServiceProvider extends ServiceProvider {
 
@@ -14,6 +15,10 @@ class MetaServiceProvider extends ServiceProvider {
         $this->publishes([
             __DIR__ . DIRECTORY_SEPARATOR . '../assets/migrations/' => base_path('database/migrations')
         ], 'migrations');
+
+        $this->publishes([
+            __DIR__.'/../assets/configuration' => config_path('yaml/meta'),
+        ]);
     }
 
     /**
@@ -22,7 +27,17 @@ class MetaServiceProvider extends ServiceProvider {
      * @return void
      */
     public function register() {
-        $this->app->bind('meta', MetaManager::class);
+        $this->loadConfiguration();
+
+        Support\merge_yaml_config_from(
+            config_path('yaml/meta/general.yaml') , 'laravel-meta'
+        );
+
+        $this->app->bind('meta', function() {
+            return new MetaManager(
+                config('laravel-meta')
+            );
+        });
 
         $this->registerBladeExtension();
     }
@@ -55,5 +70,18 @@ class MetaServiceProvider extends ServiceProvider {
         $laravel = app();
 
         return preg_match(sprintf("/^%s/", $version), $laravel::VERSION);
+    }
+
+    /**
+     * Load configuration .
+     *
+     * @return $this
+     */
+    protected function loadConfiguration() {
+        Support\set_config_from_yaml(
+            __DIR__ . '/../assets/configuration/general.yaml' , 'laravel-meta'
+        );
+
+        return $this;
     }
 }

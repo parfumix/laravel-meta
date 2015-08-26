@@ -1,0 +1,5 @@
+#here will be default placeholders for each meta tag .
+placeholders:
+  title: %%title%%
+  description: %%description%%
+  keywords: %%keywords%%
