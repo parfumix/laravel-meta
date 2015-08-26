@@ -2,8 +2,10 @@
 
 namespace Laravel\Meta;
 
+use Eloquent\Translatable\Translatable;
 use Illuminate\Contracts\Support\Arrayable;
 use Laravel\Meta\Eloquent\Metaable;
+use Localization as Locale;
 
 class MetaManager implements \ArrayAccess, Arrayable {
 
@@ -12,12 +14,20 @@ class MetaManager implements \ArrayAccess, Arrayable {
      */
     private $attributes = [];
 
+    /**
+     * @var array
+     */
     protected $templates = [
         'title'       => '<title>%s</title>',
         'description' => '<meta name="description" content="%s">',
     ];
 
-    public function __construct(array $attributes = [], array $templates = array()) {
+    /**
+     * @var array
+     */
+    protected $configurations = [];
+
+    public function __construct(array $configurations = [], array $templates = array()) {
         $this->templates['keywords'] = function($keywords) {
             if ($keywords === null)
                 return;
@@ -34,7 +44,7 @@ class MetaManager implements \ArrayAccess, Arrayable {
 
         $this->addTemplates($templates);
 
-        $this->fromArray($attributes);
+        $this->configurations = $configurations;
     }
 
 
@@ -44,35 +54,62 @@ class MetaManager implements \ArrayAccess, Arrayable {
      * @param array $attributes
      * @return $this
      */
-    public function fromArray(array $attributes) {
-        array_walk($attributes, function($value, $attribute) {
-            $this->set($attribute, $value);
+    public static function fromArray(array $attributes) {
+        $metaManager = app('meta');
+
+        array_walk($attributes, function($value, $attribute) use($metaManager) {
+            $metaManager->set($attribute, $value);
         });
 
-        return $this;
+        return $metaManager;
     }
 
     /**
-     * Set meta from entity ..
+     * Get meta from eloquent .
      *
      * @param Metaable $metaable
      * @param null $locale
-     * @return $this
+     * @param array $placeholders
+     * @return \Illuminate\Foundation\Application|mixed
      */
-    public function fromEloquent(Metaable $metaable, $locale = null) {
-        $prefix = 'getMeta';
+    public static function fromEloquent(Metaable $metaable, $locale = null, $placeholders = []) {
+        $meta = app('meta');
 
-        array_walk($this->templates, function($template, $key) use($prefix, $metaable, $locale) {
-            $funcName = sprintf('%s%s', $prefix, ucfirst($key));
+        if( empty($placeholders) )
+            $placeholders = $meta->configurations['placeholders'];
 
-            if( in_array($funcName, get_class_methods(get_class($metaable))) )
-                $this->set(
-                    $key,
-                    $metaable->{$funcName}($locale)
-                );
-        });
+        $locale = isset($locale) ? $locale : Locale\get_active_locale();
 
-        return $this;
+        foreach ($meta->templates as $key => $template) {
+
+            $value = $metaable->getMeta($key, $locale);
+
+            $placeholder = $value;
+
+            if (! $value || $value == '')
+                if ($metaable->allowGlobalPlaceholders()) {
+                    $placeholder = $placeholders[$key];
+                    $value       = $placeholder;
+                }
+
+
+            if (preg_match_all("/%%([a-zA-Z-_]+)%%/", $placeholder, $matches)) {
+
+                foreach ($matches[1] as $place) {
+
+                    if(! $replaced = $metaable->{$place}) {
+                        if( $metaable instanceof Translatable )
+                            $replaced = isset($metaable->translate($locale)->{$place}) ? $metaable->translate($locale)->{$place} : '';
+                    }
+
+                    $value = str_replace('%%'.$place.'%%', $replaced, $value);
+                }
+            }
+
+            $meta->set($key, trim($value));
+        }
+
+        return $meta;
     }
 
 
