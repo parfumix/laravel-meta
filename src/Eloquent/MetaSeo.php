@@ -6,7 +6,7 @@ use Eloquent\Translatable\Translatable;
 use Eloquent\Translatable\TranslatableTrait;
 use Illuminate\Database\Eloquent\Model;
 
-class Meta extends Model implements Translatable {
+class MetaSeo extends Model implements Translatable {
 
     use TranslatableTrait;
 
@@ -16,7 +16,7 @@ class Meta extends Model implements Translatable {
 
     protected $fillable = ['metaable_id', 'metaable_type', 'key'];
 
-    protected $translationClass = MetaTranslations::class;
+    protected $translationClass = MetaSeoTranslations::class;
 
     /**
      * Get all of the owning metaable models.

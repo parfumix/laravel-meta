@@ -4,7 +4,7 @@ namespace Laravel\Meta\Eloquent;
 
 use Illuminate\Database\Eloquent\Model;
 
-class MetaTranslations extends Model {
+class MetaSeoTranslations extends Model {
 
     protected $table = 'meta_seo_translations';
 
