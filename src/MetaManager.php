@@ -85,10 +85,11 @@ class MetaManager implements \ArrayAccess, Arrayable {
 
         $locale = isset($locale) ? $locale : Locale\get_active_locale();
 
+        $metaTranslatedRow = ($metaRow = $metaable->meta()->first()->translate($locale)) ? $metaRow->toArray() : [];
+
         foreach ($meta->templates as $key => $template) {
 
-            $value = $metaable->getMeta($key, $locale);
-
+            $value       = isset($metaTranslatedRow[$key]) ? $metaTranslatedRow[$key] : '';
             $placeholder = $value;
 
             if (! $value || $value == '')
@@ -101,7 +102,6 @@ class MetaManager implements \ArrayAccess, Arrayable {
             if (preg_match_all("/%%([a-zA-Z-_]+)%%/", $placeholder, $matches)) {
 
                 foreach ($matches[1] as $place) {
-
                     if(! $replaced = $metaable->{$place}) {
                         if( $metaable instanceof Translatable )
                             $replaced = isset($metaable->translate($locale)->{$place}) ? $metaable->translate($locale)->{$place} : '';
