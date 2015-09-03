@@ -14,7 +14,7 @@ class MetaSeo extends Model implements Translatable {
 
     public $timestamps = false;
 
-    protected $fillable = ['metaable_id', 'metaable_type', 'key'];
+    protected $fillable = ['metaable_id', 'metaable_type'];
 
     protected $translationClass = MetaSeoTranslations::class;
 
