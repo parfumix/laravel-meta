@@ -4,7 +4,7 @@ namespace Laravel\Meta\Eloquent;
 
 use Localization as Locale;
 
-trait MetaTrait {
+trait MetaSeoTrait {
 
     /**
      * Get meta ..
@@ -12,7 +12,7 @@ trait MetaTrait {
      * @return mixed
      */
     public function meta() {
-        return $this->morphMany(MetaSeo::class, 'metaable');
+        return $this->morphMany(MetaSeoAble::class, 'metaable');
     }
 
     /**

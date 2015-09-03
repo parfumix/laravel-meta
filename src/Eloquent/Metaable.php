@@ -2,7 +2,7 @@
 
 namespace Laravel\Meta\Eloquent;
 
-interface Metaable {
+interface MetaSeoable {
 
     /**
      * Get meta .

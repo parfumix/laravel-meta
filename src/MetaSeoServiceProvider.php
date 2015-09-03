@@ -6,7 +6,7 @@ use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\ServiceProvider;
 use Flysap\Support;
 
-class MetaServiceProvider extends ServiceProvider {
+class MetaSeoServiceProvider extends ServiceProvider {
 
     /**
      * Publish resources.

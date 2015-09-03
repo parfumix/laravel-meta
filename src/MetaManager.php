@@ -4,7 +4,7 @@ namespace Laravel\Meta;
 
 use Eloquent\Translatable\Translatable;
 use Illuminate\Contracts\Support\Arrayable;
-use Laravel\Meta\Eloquent\Metaable;
+use Laravel\Meta\Eloquent\MetaSeoable;
 use Localization as Locale;
 
 class MetaManager implements \ArrayAccess, Arrayable {
@@ -72,12 +72,12 @@ class MetaManager implements \ArrayAccess, Arrayable {
     /**
      * Get meta from eloquent .
      *
-     * @param Metaable $metaable
+     * @param MetaSeoable $metaable
      * @param null $locale
      * @param array $placeholders
      * @return \Illuminate\Foundation\Application|mixed
      */
-    public static function fromEloquent(Metaable $metaable, $locale = null, $placeholders = []) {
+    public static function fromEloquent(MetaSeoable $metaable, $locale = null, $placeholders = []) {
         $meta = app('meta');
 
         if( empty($placeholders) )
