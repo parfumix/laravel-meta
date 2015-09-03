@@ -12,7 +12,7 @@ trait MetaSeoTrait {
      * @return mixed
      */
     public function meta() {
-        return $this->morphMany(MetaSeoAble::class, 'metaable');
+        return $this->morphMany(MetaSeo::class, 'metaable');
     }
 
     /**
