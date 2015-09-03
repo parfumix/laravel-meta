@@ -11,7 +11,7 @@ trait MetaSeoTrait {
      *
      * @return mixed
      */
-    public function meta() {
+    public function metaSeo() {
         return $this->morphMany(MetaSeo::class, 'metaable');
     }
 
@@ -22,7 +22,7 @@ trait MetaSeoTrait {
      * @return $this
      */
     public function storeMeta(array $meta = array()) {
-        $this->meta->first()->fill($meta)->save();
+        $this->metaSeo->first()->fill($meta)->save();
 
         return $this;
     }
