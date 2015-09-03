@@ -11,25 +11,20 @@ trait MetaTrait {
      *
      * @return mixed
      */
-    protected function meta() {
-        return $this->morphMany(Meta::class, 'metaable');
+    public function meta() {
+        return $this->morphMany(MetaSeo::class, 'metaable');
     }
 
     /**
-     * Get meta by key .
+     * Save meta
      *
-     * @param $key
-     * @param null $locale
-     * @return string
+     * @param array $meta
+     * @return $this
      */
-    public function getMeta($key, $locale = null) {
-        $meta = $this->meta()
-            ->where('key', $key)
-            ->first();
+    public function storeMeta(array $meta = array()) {
+        $this->meta->first()->fill($meta)->save();
 
-        $locale = isset($locale) ? $locale : Locale\get_active_locale();
-
-        return ! is_null($meta) ? $meta->translate($locale)->value : '';
+        return $this;
     }
 
     /**
