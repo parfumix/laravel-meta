@@ -16,9 +16,8 @@ class CreateMetaSeoTable extends Migration {
             $table->increments('id');
             $table->integer('metaable_id');
             $table->string('metaable_type');
-            $table->string('key');
 
-            $table->unique(['metaable_id', 'metaable_type', 'key']);
+            $table->unique(['metaable_id', 'metaable_type']);
         });
     }
 

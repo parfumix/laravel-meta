@@ -13,14 +13,16 @@ class CreateMetaSeoTranslations extends Migration {
     public function up() {
         Schema::create('meta_seo_translations', function(Blueprint $table) {
             $table->increments('id');
-            $table->integer('meta_id')->unsigned();
+            $table->integer('meta_seo_id')->unsigned();
             $table->integer('language_id')->unsigned();
-            $table->string('value');
+            $table->string('title');
+            $table->text('description');
+            $table->string('keywords');
 
-            $table->foreign('meta_id')->references('id')->on('meta_seo')->onDelete('cascade');
+            $table->foreign('meta_seo_id')->references('id')->on('meta_seo')->onDelete('cascade');
             $table->foreign('language_id')->references('id')->on('languages')->onDelete('cascade');
 
-            $table->unique(['meta_id', 'language_id']);
+            $table->unique(['meta_seo_id', 'language_id']);
         });
     }
 
