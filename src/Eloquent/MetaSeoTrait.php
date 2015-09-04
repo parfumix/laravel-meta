@@ -21,7 +21,7 @@ trait MetaSeoTrait {
      * @param array $meta
      * @return $this
      */
-    public function storeMeta(array $meta = array()) {
+    public function storeSeo(array $meta = array()) {
         $this->metaSeo->first()->fill($meta)->save();
 
         return $this;
