@@ -85,7 +85,11 @@ class MetaManager implements \ArrayAccess, Arrayable {
 
         $locale = isset($locale) ? $locale : Locale\get_active_locale();
 
-        $metaTranslatedRow = ($metaRow = $metaable->metaSeo()->first()) ? $metaRow->translate($locale)->toArray() : [];
+        $metaTranslatedRow = [];
+        if( $metaRow = $metaable->metaSeo() ) {
+            if( $translation =  $metaRow->translate($locale) )
+                $metaTranslatedRow = $translation->toArray();
+        }
 
         foreach ($meta->templates as $key => $template) {
 
