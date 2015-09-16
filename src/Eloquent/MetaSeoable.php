@@ -9,7 +9,7 @@ interface MetaSeoable {
      *
      * @return mixed
      */
-    public function meta();
+    public function metaSeo();
 
     /**
      * Check if is allowed use global placeholders .
