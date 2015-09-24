@@ -22,7 +22,7 @@
     }
   ],
   "require": {
-    "parfumix/eloquent-translatable": "v1.0"
+    "parfumix/eloquent-translatable": "dev-master"
   },
   "minimum-stability": "dev"
 }
